@@ -111,5 +111,5 @@ function alterar_registro_produto(recebe_codigo_produto,e)
 function excluir_registro_produto(recebe_codigo_produto,e)
 {
   e.preventDefault();
-  alert(recebe_codigo_produto);
+  
 }
