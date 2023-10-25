@@ -86,5 +86,25 @@ class Produtos implements ProdutosInterface{
             return $excecao->getMessage();
         }
     }
+
+    public function buscaProdutosEspecifico():array
+    {
+        $registros_produtos = array();
+
+        try{
+            $sql_BuscaProdutosEspecificos = "select * from produtos where codigo_produto = :recebe_codigo_produto";
+            $comando_BuscaProdutosEspecificos = Conexao::Obtem()->prepare($sql_BuscaProdutosEspecificos);
+            $comando_BuscaProdutosEspecificos->bindValue(":recebe_codigo_produto",$this->getCodigo_Produto());
+            $comando_BuscaProdutosEspecificos->execute();
+            $registros_produtos = $comando_BuscaProdutosEspecificos->fetch(PDO::FETCH_ASSOC);
+            return $registros_produtos;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
 }
 ?>

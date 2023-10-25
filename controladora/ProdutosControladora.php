@@ -30,5 +30,14 @@ class ProdutosControladora{
         $registros_produtos = $this->produtos->listagemProdutos();
         return $registros_produtos;
     }
+
+    public function buscaProdutosEspecificos($recebe_codigo_produto)
+    {
+        $this->produtos->setCodigo_Produto($recebe_codigo_produto);
+
+        $retorno_BuscaProdutosEspecificos = $this->produtos->buscaProdutosEspecifico();
+
+        return $retorno_BuscaProdutosEspecificos;
+    }
 }
 ?>
