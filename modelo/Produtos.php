@@ -106,5 +106,40 @@ class Produtos implements ProdutosInterface{
             return $excecao->getMessage();
         }
     }
+
+    public function editarProdutos():bool
+    {
+        try{
+            $sql_AlterarProduto = "update produtos set nome_produto = :recebe_nome_produto where codigo_produto = :recebe_codigo_produto";
+            $comando_AlterarProduto = Conexao::Obtem()->prepare($sql_AlterarProduto);
+            $comando_AlterarProduto->bindValue(":recebe_nome_produto",$this->getNome_Produto());
+            $comando_AlterarProduto->bindValue(":recebe_codigo_produto",$this->getCodigo_Produto());
+            $resultado_AlterarProduto = $comando_AlterarProduto->execute();
+            return $resultado_AlterarProduto;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
+
+    public function deletarProdutos():bool
+    {
+        try{
+            $sql_DeletarProduto = "delete from produtos where codigo_produto = :recebe_codigo_produto";
+            $comando_DeletarProduto = Conexao::Obtem()->prepare($sql_DeletarProduto);
+            $comando_DeletarProduto->bindValue(":recebe_codigo_produto",$this->getCodigo_Produto());
+            $resultado_DeletarProduto = $comando_DeletarProduto->execute();
+            return $resultado_DeletarProduto;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
 }
 ?>

@@ -20,7 +20,7 @@ if (!empty($url[0])) {
         //e feito a importacao do arquivo inicio.php
         require("inicio.php");
         //e verificado se o valor do primeiro indice e cadastros_insumos, como foi clicado na opção no menu para cadastro de insumos ira ser igual sim e entrada na condicao e sera importado o arquivo inicio.php
-    } elseif ($url[0] === "cadastrar_lista_compras") {
+    } elseif ($url[0] === "cadastrar_lista") {
         //e criada uma variavel $url_final que recebe o valor do array no seu primeiro indice concatenado com .php
         //e feito a importacao do arquivo inicio.php
         require("inicio.php");
@@ -31,6 +31,9 @@ if (!empty($url[0])) {
         require("inicio.php");
         //e verificado se o valor do primeiro indice e cadastros_servicos, como foi clicado na opção no menu para cadastro de servicos ira ser igual sim e entrada na condicao e sera importado o arquivo inicio.php
     } else if($url[0] === "consultar_produtos")
+    {
+        require("inicio.php");
+    } else if($url[0] === "cadastro_lista_compras")
     {
         require("inicio.php");
     }

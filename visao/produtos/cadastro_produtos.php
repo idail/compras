@@ -16,9 +16,10 @@
                         </form>
 
                     </div>
-                    <div class="alert alert-danger" id="mensagem-campo-vazio-cadastro-produto"><span id="corpo-campo-vazio-cadastro-produto"></span></div>
+                    <div class="alert alert-danger" id="mensagem-campo-vazio-cadastro-edita-produto"><span id="corpo-campo-vazio-cadastro-edita-produto"></span></div>
                     <div class="alert alert-success" id="mensagem-produto-cadastrado"><span id="corpo-produto-cadastrado"></span></div>
-                    <div class="alert alert-danger" id="mensagem-falha-cadastro-produto"><span id="corpo-falha-cadastro-produto"></span></div>
+                    <div class="alert alert-success" id="mensagem-produto-editado"><span id="corpo-produto-editado"></span></div>
+                    <div class="alert alert-danger" id="mensagem-falha-cadastro-edita-produto"><span id="corpo-falha-cadastro-edita-produto"></span></div>
                 </div>
             </div>
         </div>

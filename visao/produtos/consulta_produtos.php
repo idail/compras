@@ -11,13 +11,6 @@
                         </tr>
                     </thead>
                     <tbody id="registros-produtos">
-                        <tr>
-                            <td><a href="javascript:void(0)">Order #26589</a>
-                            </td>
-                            <td>Herman Beck</td>
-                            <td><span class="text-muted">Oct 16, 2017</span>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

@@ -1,9 +1,11 @@
 $(document).ready(function (e) {
-  $("#mensagem-campo-vazio-cadastro-produto").hide();
+  $("#mensagem-campo-vazio-cadastro-edita-produto").hide();
 
   $("#mensagem-produto-cadastrado").hide();
 
-  $("#mensagem-falha-cadastro-produto").hide();
+  $("#mensagem-produto-editado").hide();
+
+  $("#mensagem-falha-cadastro-edita-produto").hide();
 
   debugger;
 
@@ -48,7 +50,7 @@ $(document).ready(function (e) {
 
           $("#registros-produtos").append(recebe_tabela_produtos);
         }else{
-          $("#registros-produtos").append("Nenhum registro localizado");
+          $("#registros-produtos").append("<td colspan='2' class='text-center'>Nenhum registro localizado</td>>");
         }
       },
       error:function(xhr,status,error)
@@ -88,7 +90,7 @@ $(document).ready(function (e) {
   }
 });
 
-$(document).on("click","cadastrar-produto",function(e){
+$(document).on("click","#cadastrar-produto",function(e){
   e.preventDefault();
 
   debugger;
@@ -108,9 +110,9 @@ $(document).on("click","cadastrar-produto",function(e){
         debugger;
         if (retorno_cadastro_produtos != "") {
           if (retorno_cadastro_produtos === "produto ja cadastrado") {
-            $("#corpo-falha-cadastro-produto").html("Produto já cadastrado");
-            $("#mensagem-falha-cadastro-produto").show();
-            $("#mensagem-falha-cadastro-produto").fadeOut(4000);
+            $("#corpo-falha-cadastro-edita-produto").html("Produto já cadastrado");
+            $("#mensagem-falha-cadastro-edita-produto").show();
+            $("#mensagem-falha-cadastro-edita-produto").fadeOut(4000);
           } else {
             $("#corpo-produto-cadastrado").html(
               "Produto cadastrada com sucesso"
@@ -119,35 +121,161 @@ $(document).on("click","cadastrar-produto",function(e){
             $("#mensagem-produto-cadastrado").fadeOut(4000);
           }
         } else {
-          $("#corpo-falha-cadastro-produto").html("Falha ao inserir produto");
-          $("#mensagem-falha-cadastro-produto").show();
-          $("#mensagem-falha-cadastro-produto").fadeOut(4000);
+          $("#corpo-falha-cadastro-edita-produto").html("Falha ao inserir produto");
+          $("#mensagem-falha-cadastro-edita-produto").show();
+          $("#mensagem-falha-cadastro-edita-produto").fadeOut(4000);
         }
       },
       error: function (xhr, status, error) {
-        $("#corpo-falha-cadastro-produto").html(
+        $("#corpo-falha-cadastro-edita-produto").html(
           "Falha ao inserir produto:" + error
         );
-        $("#mensagem-falha-cadastro-produto").show();
-        $("#mensagem-falha-cadastro-produto").fadeOut(4000);
+        $("#mensagem-falha-cadastro-edita-produto").show();
+        $("#mensagem-falha-cadastro-edita-produto").fadeOut(4000);
       },
     });
   } else {
-    $("#corpo-campo-vazio-cadastro-produto").html(
+    $("#corpo-campo-vazio-cadastro-edita-produto").html(
       "Favor preencher o nome do produto"
     );
-    $("#mensagem-campo-vazio-cadastro-produto").show();
-    $("#mensagem-campo-vazio-cadastro-produto").fadeOut(4000);
+    $("#mensagem-campo-vazio-cadastro-edita-produto").show();
+    $("#mensagem-campo-vazio-cadastro-edita-produto").fadeOut(4000);
     $("#nome-produto").focus();
   }
 });
 
-$(document).on("click","editar-produto",function(e){
+$(document).on("click","#editar-produto",function(e){
   e.preventDefault();
-  alert("oi");
+  
+  debugger;
+  let recebe_nome_produto_alterar = $("#nome-produto").val();
+
+  let recebe_codigo_produto_alterar = $("#codigo-produto-alterar").val();
+
+  if(recebe_nome_produto_alterar != "")
+  {
+    $.ajax({
+      url: "../api/ProdutosAPI.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        processo_produtos: "editar_produtos",
+        valor_nome_produtos_editar: recebe_nome_produto_alterar,
+        valor_codigo_produtos_editar:recebe_codigo_produto_alterar,
+        metodo:"PUT",
+      },
+      success: function (retorno_edita_produtos) 
+      {
+        debugger;
+        if (retorno_edita_produtos != "") {
+          if (retorno_edita_produtos === "produto ja cadastrado") {
+            $("#corpo-falha-cadastro-edita-produto").html("Produto já cadastrado");
+            $("#mensagem-falha-cadastro-edita-produto").show();
+            $("#mensagem-falha-cadastro-edita-produto").fadeOut(4000);
+          } else {
+            $("#corpo-produto-editado").html(
+              "Produto editado com sucesso"
+            );
+            $("#mensagem-produto-editado").show();
+            $("#mensagem-produto-editado").fadeOut(4000);
+          }
+        } else {
+          $("#corpo-falha-cadastro-edita-produto").html("Falha ao editar produto");
+          $("#mensagem-falha-cadastro-edita-produto").show();
+          $("#mensagem-falha-cadastro-edita-produto").fadeOut(4000);
+        }
+      },
+      error:function(xhr,status,error)
+      {
+        $("#corpo-falha-cadastro-edita-produto").html(
+          "Falha ao editar produto:" + error
+        );
+        $("#mensagem-falha-cadastro-edita-produto").show();
+        $("#mensagem-falha-cadastro-edita-produto").fadeOut(4000);
+      },
+    });
+  }else{
+    $("#corpo-campo-vazio-cadastro-edita-produto").html(
+      "Favor preencher o nome do produto"
+    );
+    $("#mensagem-campo-vazio-cadastro-edita-produto").show();
+    $("#mensagem-campo-vazio-cadastro-edita-produto").fadeOut(4000);
+    $("#nome-produto").focus();
+  }
 });
 
 function excluir_registro_produto(recebe_codigo_produto,e)
 {
   e.preventDefault();
+
+  let decisao_deletar_produto = window.confirm("Tem certeza que deseja deletar o produto?");
+
+  if(decisao_deletar_produto === true)
+  {
+    if(recebe_codigo_produto != "")
+    {
+      $.ajax({
+        url: "../api/ProdutosAPI.php",
+        type: "DELETE",
+        dataType: "json",
+        cache: false,
+        data: JSON.stringify({
+          processo_produtos: "deletar_produtos",
+          valor_codigo_produto_deletar: recebe_codigo_produto,
+        }),
+        success: function (retorno_deletar_produtos) 
+        { 
+          debugger;
+
+          if(retorno_deletar_produtos === true)
+          {
+            toastr.success("Produto deletado com sucesso", {
+              timeOut: 5e3,
+              closeButton: !0,
+              debug: !1,
+              newestOnTop: !0,
+              progressBar: !0,
+              positionClass: "toast-top-right",
+              preventDuplicates: !0,
+              onclick: null,
+              showDuration: "300",
+              hideDuration: "1000",
+              extendedTimeOut: "1000",
+              showEasing: "swing",
+              hideEasing: "linear",
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              tapToDismiss: !1,
+            });
+          }else{
+            toastr.error("Falha ao deletar produto", {
+              positionClass: "toast-top-right",
+              timeOut: 5e3,
+              closeButton: !0,
+              debug: !1,
+              newestOnTop: !0,
+              progressBar: !0,
+              preventDuplicates: !0,
+              onclick: null,
+              showDuration: "300",
+              hideDuration: "1000",
+              extendedTimeOut: "1000",
+              showEasing: "swing",
+              hideEasing: "linear",
+              showMethod: "fadeIn",
+              hideMethod: "fadeOut",
+              tapToDismiss: !1,
+            });
+          }
+        },
+        error:function(xhr,status,error)
+        {
+
+        },
+      });
+    }
+  }else
+  {
+    return;
+  }
 }

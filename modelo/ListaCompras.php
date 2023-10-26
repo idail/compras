@@ -44,5 +44,24 @@ class ListaCompras implements ListaComprasInterface{
             return $excecao->getMessage();
         }
     }
+
+    public function listagemListaCompras():array
+    {
+        $registros_lista_compras = array();
+
+        try{
+            $sql_BuscaListaCompra = "select * from lista";
+            $comando_BuscaListaCompra = Conexao::Obtem()->prepare($sql_BuscaListaCompra);
+            $comando_BuscaListaCompra->execute();
+            $registros_lista_compras = $comando_BuscaListaCompra->fetchAll(PDO::FETCH_ASSOC);
+            return $registros_lista_compras;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
 }
 ?>

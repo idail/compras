@@ -17,5 +17,12 @@ class ListaComprasControladora{
 
         return $retorno_CadastrarListaCompras;
     }
+
+    public function buscarListaCompras()
+    {
+        $retorno_BuscarListaCompras = $this->lista_compras->listagemListaCompras();
+
+        return $retorno_BuscarListaCompras;
+    }
 }
 ?>

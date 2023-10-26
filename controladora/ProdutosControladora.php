@@ -39,5 +39,31 @@ class ProdutosControladora{
 
         return $retorno_BuscaProdutosEspecificos;
     }
+
+    public function editarProdutos($recebe_nome_produto_alterar,$recebe_codigo_produto_alterar)
+    {
+        $this->produtos->setNome_Produto($recebe_nome_produto_alterar);
+        $this->produtos->setCodigo_Produto($recebe_codigo_produto_alterar);
+        
+        $retorno_VerificaDuplicidadeProdutos = $this->produtos->verificaDuplicidadeProduto();
+
+        if($retorno_VerificaDuplicidadeProdutos === "produto ja cadastrado")
+        {
+            return $retorno_VerificaDuplicidadeProdutos;
+        }else{
+            $retorno_EditarProduto = $this->produtos->editarProdutos();
+
+            return $retorno_EditarProduto;
+        }
+    }
+
+    public function deletarProdutos($recebe_codigo_produto_deletar)
+    {
+        $this->produtos->setCodigo_Produto($recebe_codigo_produto_deletar);
+
+        $retorno_DeletarProduto = $this->produtos->deletarProdutos();
+
+        return $retorno_DeletarProduto;
+    }
 }
 ?>

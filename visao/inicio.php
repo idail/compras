@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" href="icons/font-awesome/css/font-awesome.min.css">
 
+    <link rel="stylesheet" href="plugins/toastr/css/toastr.min.css" real="stylesheet">
+
 </head>
 
 <body>
@@ -262,10 +264,10 @@
                             <!-- <i class="icon-speedometer menu-icon"></i> -->
 
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                            <span class="nav-text">Lista de Compras</span>
+                            <span class="nav-text">Lista</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="index.php?pagina=cadastrar_lista_compras">Cadastrar</a></li>
+                            <li><a href="index.php?pagina=cadastrar_lista">Cadastrar</a></li>
                             <!-- <li><a href="./index-2.html">Home 2</a></li> -->
                         </ul>
                     </li>
@@ -288,15 +290,14 @@
                             <li><a href="layout-fixed-sidebar.html">Fixed Sidebar</a></li> -->
                         </ul>
                     </li>
-                    <li class="nav-label">Apps</li>
+                    <!-- <li class="nav-label">Apps</li> -->
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-envelope menu-icon"></i> <span class="nav-text">Email</span>
+                        <i class="fa fa-list-alt" aria-hidden="true"></i> <span class="nav-text">Listas de Compras</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./email-inbox.html">Inbox</a></li>
-                            <li><a href="./email-read.html">Read</a></li>
-                            <li><a href="./email-compose.html">Compose</a></li>
+                            <li><a href="index.php?pagina=cadastro_lista_compras">Cadastrar</a></li>
+                            <li><a href="./email-read.html">Consultar</a></li>
                         </ul>
                     </li>
                     <li>
@@ -421,15 +422,18 @@
                 <?php
                     if(isset($_GET["pagina"]))
                     {
-                        if($_GET["pagina"] === "cadastrar_lista_compras")
+                        if($_GET["pagina"] === "cadastrar_lista")
                         {
-                            require("lista_compras/cadastro_lista_compras.php");
+                            require("listas/cadastro_lista.php");
                         }else if($_GET["pagina"] === "cadastrar_produtos")
                         {
                             require("produtos/cadastro_produtos.php");
                         }else if($_GET["pagina"] === "consultar_produtos")
                         {
                             require("produtos/consulta_produtos.php");
+                        }else if($_GET["pagina"] === "cadastro_lista_compras")
+                        {
+                            require("lista_compras/cadastrar_lista_compras.php");
                         }
                     }else{
                         require("menu/menu_rapido.php");
@@ -990,6 +994,12 @@
     <script src="js/lista_compras.js"></script>
 
     <script src="js/produtos.js"></script>
+
+    <script src="plugins/toastr/js/toastr.min.js"></script>
+
+    <script src="plugins/toastr/js/toastr.init.js"></script>
+
+    <script src="js/lista_completa.js"></script>
 
 </body>
 
