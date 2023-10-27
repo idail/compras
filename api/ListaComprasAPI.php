@@ -31,6 +31,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $resultado_BuscarListaCompras = $lista_compras_controladora->buscarListaCompras();
 
             echo json_encode($resultado_BuscarListaCompras);
+        }else if($_GET["processo_lista_compras"] === "busca_lista_compras_itens")
+        {
+            $resultado_BuscarListaComprasItens = $lista_compras_controladora->listagemComprasItens();
+
+            echo json_encode($resultado_BuscarListaComprasItens);
+        }else if($_GET["processo_lista_compras"] === "busca_lista_compras_itens_especifico")
+        {
+            $resultado_BuscaListaComprasItensEspecifico = $lista_compras_controladora->buscaListaComprasItensEspecifica($_GET["valor_codigo_lista_compras_itens_especifico"]);
+
+            echo json_encode($resultado_BuscaListaComprasItensEspecifico);
         }
     }
 }

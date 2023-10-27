@@ -6,6 +6,15 @@ $(document).ready(function (e) {
   $("#mensagem-lista-compras-cadastrado").hide();
 
   $("#mensagem-falha-cadastro-lista-compras").hide();
+
+  debugger;
+
+  // let url_lista_compras = window.location.href;
+
+  // if(url_lista_compras === "http://localhost/compras/visao/index.php?pagina=cadastrar_lista&codigo_lista_alterar=" + recebe_codigo_lista)
+  // {
+
+  // }
 });
 
 $("#cadastrar-lista-compra").click(function (e) {

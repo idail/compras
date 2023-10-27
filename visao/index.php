@@ -36,6 +36,9 @@ if (!empty($url[0])) {
     } else if($url[0] === "cadastro_lista_compras")
     {
         require("inicio.php");
+    } else if($url[0] === "consultar_lista_compras")
+    {
+        require("inicio.php");
     }
 
 

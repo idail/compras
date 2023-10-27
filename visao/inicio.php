@@ -297,7 +297,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="index.php?pagina=cadastro_lista_compras">Cadastrar</a></li>
-                            <li><a href="./email-read.html">Consultar</a></li>
+                            <li><a href="index.php?pagina=consultar_lista_compras">Consultar</a></li>
                         </ul>
                     </li>
                     <li>
@@ -434,6 +434,9 @@
                         }else if($_GET["pagina"] === "cadastro_lista_compras")
                         {
                             require("lista_compras/cadastrar_lista_compras.php");
+                        }else if($_GET["pagina"] === "consultar_lista_compras")
+                        {
+                            require("lista_compras/consultar_lista_compras.php");
                         }
                     }else{
                         require("menu/menu_rapido.php");
