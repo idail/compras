@@ -46,17 +46,10 @@
                         </form>
 
                     </div>
-<<<<<<< HEAD
                     <div class="alert alert-danger" id="mensagem-campo-vazio-cadastro-edita-itens-lista"><span id="corpo-campo-vazio-cadastro-edita-itens-lista"></span></div>
                     <div class="alert alert-success" id="mensagem-itens-lista-cadastrado"><span id="corpo-itens-lista-cadastrado"></span></div>
                     <div class="alert alert-success" id="mensagem-itens-lista-editado"><span id="corpo-itens-lista-editado"></span></div>
                     <div class="alert alert-danger" id="mensagem-falha-cadastro-edita-itens-lista"><span id="corpo-falha-cadastro-edita-itens-lista"></span></div>
-=======
-                    <div class="alert alert-danger" id="mensagem-campo-vazio-cadastro-edita-lista-itens"><span id="corpo-campo-vazio-cadastro-edita-produto"></span></div>
-                    <div class="alert alert-success" id="mensagem-produto-cadastrado"><span id="corpo-produto-cadastrado"></span></div>
-                    <div class="alert alert-success" id="mensagem-produto-editado"><span id="corpo-produto-editado"></span></div>
-                    <div class="alert alert-danger" id="mensagem-falha-cadastro-edita-produto"><span id="corpo-falha-cadastro-edita-produto"></span></div>
->>>>>>> c92a56c41fb4b38a0da5de3bb03d2141b41fe8e2
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ $(document).ready(function (e) {
 
   let indice_busca_codigo_lista = url_lista_compras.indexOf(url_alterar_lista_compras);
 
-  let recebe_codigo_lista_compras_itens_alterar = url_lista_compras.substring(indice_busca_codigo_lista + 86);
+  let recebe_codigo_lista_compras_itens_alterar = url_lista_compras.substring(indice_busca_codigo_lista + 35);
 
   console.log(recebe_codigo_lista_compras_itens_alterar);
 
@@ -84,7 +84,34 @@ $(document).ready(function (e) {
   }else if(url_lista_compras === "http://localhost/compras/visao/index.php?pagina=consultar_lista_compras")
   {
     debugger;
+
     $.ajax({
+      url: "../api/ListaComprasAPI.php",
+      type: "GET",
+      dataType: "json",
+      data: {
+        processo_lista_compras: "busca_lista_compras_com_itens",
+      },
+      success: function (retorno_buscar_lista_compras_com_itens) 
+      {
+        debugger;
+        let popular_opcoes_listas_compras_com_itens = "";
+
+        for (let indice = 0; indice < retorno_buscar_lista_compras_com_itens.length; indice++)
+        {
+          popular_opcoes_listas_compras_com_itens +=
+          "<option value='" + retorno_buscar_lista_compras_com_itens[indice].codigo_lista + "'>" + retorno_buscar_lista_compras_com_itens[indice].titulo_lista + "</option>";
+        }
+
+        $("#lista-compras-com-itens-busca").append(popular_opcoes_listas_compras_com_itens);
+      },
+      error:function(xhr,status,error)
+      {
+        console.log(error);
+      },
+    });
+
+    /*$.ajax({
       url: "../api/ListaComprasAPI.php",
       type: "GET",
       dataType: "json",
@@ -107,7 +134,8 @@ $(document).ready(function (e) {
              "<td>" + retorno_buscar_lista_compras_itens[indice].Produto + "</td>"+
              "<td><a href='index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar=" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + "'><i class='fa fa-pencil fa-lg' aria-hidden='true' title='Editar Lista'></i></a></td>"+
              "<td><a href='#' onclick=excluir_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Lista'></i></a></td>"+
-             "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Item_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>"
+             "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Item_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>"+
+            "</tr>";
            }
 
            $("#registros-lista-compras").append(recebe_tabela_lista_compras_itens);
@@ -117,10 +145,69 @@ $(document).ready(function (e) {
       {
         console.log(error);
       },
-    });
-  }else if(url_lista_compras === "http://localhost/compras/visao/index.php?pagina=cadastrar_lista&codigo_lista_alterar="+recebe_codigo_lista_compras_itens_alterar)
+    });*/
+  }else if(url_lista_compras === "http://localhost/compras/visao/index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar="+recebe_codigo_lista_compras_itens_alterar)
   {
     debugger;
+
+    $.ajax({
+      url: "../api/ListaComprasAPI.php",
+      type: "GET",
+      dataType: "json",
+      data: {
+        processo_lista_compras: "buscar_lista_compras",
+      },
+      success: function (retorno_busca_lista_compras) {
+        debugger;
+        if (retorno_busca_lista_compras != "") {
+          var popula_option = "";
+          for (
+            var indice = 0;
+            indice < retorno_busca_lista_compras.length;
+            indice++
+          ) {
+            popula_option +=
+              "<option value='" +
+              retorno_busca_lista_compras[indice].codigo_lista +
+              "'>" +
+              retorno_busca_lista_compras[indice].titulo_lista +
+              "</option>";
+          }
+
+          $("#itens-lista-cadastrados").append(popula_option);
+        }
+      },
+      error: function (xhr, status, error) {},
+    });
+
+    $.ajax({
+      url: "../api/ProdutosAPI.php",
+      type: "GET",
+      dataType: "json",
+      data: {
+        processo_produtos: "buscar_produtos",
+      },
+      success: function (retorno_buscar_produtos) {
+        debugger;
+        console.log(retorno_buscar_produtos);
+        var popula_opcoes_produtos = "";
+        for (
+          var indice = 0;
+          indice < retorno_buscar_produtos.length;
+          indice++
+        ) {
+          popula_opcoes_produtos +=
+            "<option value='" +
+            retorno_buscar_produtos[indice].codigo_produto +
+            "'> " +
+            retorno_buscar_produtos[indice].nome_produto +
+            "</option>";
+        }
+        $("#itens-produtos-cadastrados").append(popula_opcoes_produtos);
+      },
+      error: function (xhr, status, error) {},
+    });
+
     $.ajax({
       url: "../api/ListaComprasAPI.php",
       type: "GET",
@@ -129,17 +216,74 @@ $(document).ready(function (e) {
         processo_lista_compras: "busca_lista_compras_itens_especifico",
         valor_codigo_lista_compras_itens_especifico:recebe_codigo_lista_compras_itens_alterar
       },
-      success: function (retorno_buscar_lista_compras_itens) 
+      success: function (retorno_buscar_lista_compras_com_itens) 
       {
         debugger;
-        console.log(retorno_buscar_lista_compras_itens);
+        console.log(retorno_buscar_lista_compras_com_itens);
+        if(retorno_buscar_lista_compras_com_itens != "")
+        {
+          let recebe_tabela_itens = document.querySelector("#itens-lista-final");
+
+          let recebe_codigo_lista_compras = "";
+
+
+          for (let indice = 0; indice < retorno_buscar_lista_compras_com_itens.length; indice++) 
+          {
+            recebe_codigo_lista_compras = retorno_buscar_lista_compras_com_itens[indice].CodigoLista; 
+            $('#itens-produtos-cadastrados option[value=' + retorno_buscar_lista_compras_com_itens[indice].CodigoItensListaProdutos + ']').prop('selected', true);
+
+            recebe_tabela_itens.innerHTML +=
+            "<tr>" +
+              "<td><input type='text' class='form-control input-default' name='nome_adicionado' value='" + retorno_buscar_lista_compras_com_itens[indice].NomeDoProduto +
+              "'/><input type='hidden' name='codigo_nome_produto' value='" + retorno_buscar_lista_compras_com_itens[indice].CodigoItensLista + "'/></td>" +
+              "<td><input type='text' class='form-control input-default' name='quantidade_adicionado' value='" + retorno_buscar_lista_compras_com_itens[indice].Quantidade + "'/></td>" +
+            "</tr>";
+          }
+          $("#itens-lista-cadastrados").val(recebe_codigo_lista_compras);
+        }
       },
       error:function(xhr,status,error)
       {
-        consolelo.log(error);
+        console.log(error);
       },
     });
   }
+});
+
+$("#lista-compras-com-itens-busca").change(function(e){
+  e.preventDefault();
+  debugger;
+
+  $.ajax({
+    url: "../api/ListaComprasAPI.php",
+    type: "GET",
+    dataType: "json",
+    data: {
+      processo_lista_compras: "busca_lista_compras_itens",
+      valor_codigo_lista_compras_itens:$("#lista-compras-com-itens-busca").val()
+    },
+    success: function (retorno_buscar_lista_compras_itens) 
+    {
+      debugger;
+      let recebe_tabela_lista_compras_itens = document.querySelector("#registros-lista-compras");
+      $("#registros-lista-compras").html("");
+           for (let indice = 0; indice < retorno_buscar_lista_compras_itens.length; indice++) {
+            recebe_tabela_lista_compras_itens.innerHTML +=
+            "<tr>"+
+             "<td>" + retorno_buscar_lista_compras_itens[indice].NomeDoProduto + "</td>"+
+             "<td><a href='index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar=" + retorno_buscar_lista_compras_itens[indice].CodigoLista + "'><i class='fa fa-pencil fa-lg' aria-hidden='true' title='Editar Lista de Compras'></i></a></td>"+
+            //  "<td><a href='#' onclick=excluir_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Lista'></i></a></td>"+
+             "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Item_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>"+
+            "</tr>";
+           }
+
+           $("#registros-lista-compras").append(recebe_tabela_lista_compras_itens);
+    },
+    error:function(xhr,status,error)
+    {
+      consolelo.log(error);
+    },
+  });
 });
 
 $("#adicionar-item-lista").click(function (e) {
@@ -158,10 +302,6 @@ $("#adicionar-item-lista").click(function (e) {
       "<td><input type='text' class='form-control input-default' name='quantidade_adicionado'/></td>" +
       "</tr>";
   });
-
-  // $("#itens-lista-final").append(recebe_tabela_itens);
-
-  //popular_select_lists_produtos();
 });
 
 $("#cadastrar-lista-itens").click(function (e) {

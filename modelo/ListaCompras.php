@@ -69,15 +69,27 @@ class ListaCompras implements ListaComprasInterface{
         $registros_listas_compras_itens = array();
 
         try{
-            $sql_BuscaListaCompraItens = "SELECT
-            L.titulo_lista AS ListaDeCompras,
-            P.nome_produto AS Produto,
-            L.codigo_lista as Codigo_Lista,
-            IL.itens_lista_codigo as Codigo_Item_Lista
-        FROM lista AS L
-        INNER JOIN itens_lista AS IL ON l.codigo_lista = IL.codigo_para_lista
-        INNER JOIN Produtos AS P ON IL.codigo_para_produtos = P.codigo_produto;";
-        $comando_BuscaListaCompraItens = Conexao::Obtem()->prepare($sql_BuscaListaCompraItens);
+        //     $sql_BuscaListaCompraItens = "SELECT
+        //     L.titulo_lista AS ListaDeCompras,
+        //     P.nome_produto AS Produto,
+        //     L.codigo_lista as Codigo_Lista,
+        //     IL.itens_lista_codigo as Codigo_Item_Lista
+        // FROM lista AS L
+        // INNER JOIN itens_lista AS IL ON l.codigo_lista = IL.codigo_para_lista
+        // INNER JOIN Produtos AS P ON IL.codigo_para_produtos = P.codigo_produto;";
+        $sql_BuscarListagemComprasItens = 
+        "SELECT
+        IL.itens_lista_codigo as CodigoItensLista,
+        L.codigo_lista AS CodigoLista,
+        P.codigo_produto as CodigoProduto,
+        P.nome_produto AS NomeDoProduto,
+        il.quantidade
+    FROM itens_lista AS IL
+    LEFT JOIN lista AS L ON L.codigo_lista = IL.codigo_para_lista
+    LEFT JOIN Produtos AS P ON IL.codigo_para_produtos = P.codigo_produto
+    WHERE L.codigo_lista = :recebe_codigo_lista_compras";
+        $comando_BuscaListaCompraItens = Conexao::Obtem()->prepare($sql_BuscarListagemComprasItens);
+        $comando_BuscaListaCompraItens->bindValue(":recebe_codigo_lista_compras",$this->getCodigo_Lista());
         $comando_BuscaListaCompraItens->execute();
         $registros_listas_compras_itens = $comando_BuscaListaCompraItens->fetchAll(PDO::FETCH_ASSOC);
 
@@ -99,9 +111,11 @@ class ListaCompras implements ListaComprasInterface{
             $sql_BuscaListaComprasItensEspecifica = 
             "SELECT
             L.titulo_lista AS NomeDaLista,
-            IL.itens_lista_codigo,
+            L.codigo_lista AS CodigoLista,
+            IL.itens_lista_codigo AS CodigoItensLista,
+            IL.codigo_para_produtos AS CodigoItensListaProdutos,
             P.nome_produto AS NomeDoProduto,
-            il.quantidade
+            il.quantidade AS Quantidade
         FROM lista AS L
         LEFT JOIN itens_lista AS IL ON L.codigo_lista = IL.codigo_para_lista
         LEFT JOIN Produtos AS P ON IL.codigo_para_produtos = P.codigo_produto
@@ -111,9 +125,30 @@ class ListaCompras implements ListaComprasInterface{
             $comando_BuscaListaComprasItensEspecifica->bindValue(":recebe_codigo_lista_compras_itens",$this->getCodigo_Lista());
             $comando_BuscaListaComprasItensEspecifica->execute();
 
-            $registros_lista_compras_itens_especifico = $comando_BuscaListaComprasItensEspecifica->fetch(PDO::FETCH_ASSOC);
+            $registros_lista_compras_itens_especifico = $comando_BuscaListaComprasItensEspecifica->fetchAll(PDO::FETCH_ASSOC);
 
             return $registros_lista_compras_itens_especifico;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
+
+    public function listagemListaComprasComItens():array
+    {
+        $registros_listagem_lista_compras_itens = array();
+
+        try{
+            $sql_BuscaListaComprasComItens = "select codigo_lista,titulo_lista from lista INNER JOIN itens_lista as il where il.codigo_para_lista = lista.codigo_lista GROUP BY titulo_lista ORDER BY codigo_lista";
+            $comando_BuscaListaComprasComitens = Conexao::Obtem()->prepare($sql_BuscaListaComprasComItens);
+            $comando_BuscaListaComprasComitens->execute();
+
+            $registros_listagem_lista_compras_itens = $comando_BuscaListaComprasComitens->fetchAll(PDO::FETCH_ASSOC);
+
+            return $registros_listagem_lista_compras_itens;
         }catch(PDOException $exception)
         {
             return $exception->getMessage();

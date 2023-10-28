@@ -25,8 +25,9 @@ class ListaComprasControladora{
         return $retorno_BuscarListaCompras;
     }
 
-    public function listagemComprasItens()
+    public function listagemComprasItens($recebe_codigo_lista_compras)
     {
+        $this->lista_compras->setCodigo_Lista($recebe_codigo_lista_compras);
         $retorno_BuscarListaComprasItens = $this->lista_compras->listagemComprasItens();
 
         return $retorno_BuscarListaComprasItens;
@@ -39,6 +40,13 @@ class ListaComprasControladora{
         $retorno_BuscaListaComprasItensEspecifica = $this->lista_compras->buscaListaComprasItensEspecifica();
 
         return $retorno_BuscaListaComprasItensEspecifica;
+    }
+
+    public function listagemListaComprasComItens()
+    {
+        $retorno_BuscaListaComprasComItens = $this->lista_compras->listagemListaComprasComItens();
+
+        return $retorno_BuscaListaComprasComItens;
     }
 }
 ?>
