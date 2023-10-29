@@ -30,5 +30,14 @@ class ItensListaControladora{
 
         return $resultado_EditarItensLista;
     }
+
+    public function excluirItensLista($recebe_codigo_itens_lista_exclusao)
+    {
+        $this->itens_lista->setItens_Lista_Codigo($recebe_codigo_itens_lista_exclusao);
+
+        $resultado_ExcluirItensLista = $this->itens_lista->excluirItensLista();
+
+        return $resultado_ExcluirItensLista;
+    }
 }
 ?>

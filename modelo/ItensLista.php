@@ -49,7 +49,7 @@ class ItensLista implements itensListaInterface{
     }
 
 
-    public function cadastrarItensLista()
+    public function cadastrarItensLista():int
     {
         try{
             for ($indice = 0;$indice < count($this->getCodigo_Para_Lista());$indice++)
@@ -74,7 +74,7 @@ class ItensLista implements itensListaInterface{
         }
     }
 
-    public function editarItensLista()
+    public function editarItensLista():bool
     {
         try{
             for ($indice = 0; $indice < count($this->getCodigo_Para_Lista()); $indice++) 
@@ -89,6 +89,33 @@ class ItensLista implements itensListaInterface{
                 $resultado_EditarItensLista = $comando_EditarItensLista->execute();
             }
             return $resultado_EditarItensLista;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
+
+    public function excluirItensLista():bool
+    {
+        try{
+            if(!empty($this->getItens_Lista_Codigo()))
+            {
+                $recebe_codigo_itens_lista = "";
+
+                for ($indice=0; $indice < count($this->getItens_Lista_Codigo()); $indice++) { 
+                    $recebe_codigo_itens_lista = $this->getItens_Lista_Codigo()[$indice];
+                }
+
+                $sql_ExcluirItensLista = "delete from itens_lista where itens_lista_codigo = :recebe_codigo_itens_lista";
+                $comando_ExcluirItensLista = Conexao::Obtem()->prepare($sql_ExcluirItensLista);
+                $comando_ExcluirItensLista->bindValue(":recebe_codigo_itens_lista",$recebe_codigo_itens_lista);
+                $resultado_ExcluirItensLista = $comando_ExcluirItensLista->execute();
+
+                return $resultado_ExcluirItensLista;
+            }
         }catch(PDOException $exception)
         {
             return $exception->getMessage();

@@ -11,6 +11,10 @@ $(document).ready(function (e) {
 
   $("#mensagem-falha-exclusao-lista-compras").hide();
 
+  $("#mensagem-item-lista-excluido-sucesso").hide();
+
+  $("#mensagem-falha-exclusao-item-lista").hide();
+
   debugger;
 
   let url_lista_compras = window.location.href;
@@ -282,7 +286,7 @@ $("#lista-compras-com-itens-busca").change(function (e) {
             "<td>" + retorno_buscar_lista_compras_itens[indice].Quantidade + "</td>" +
             "<td><a href='index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar=" + retorno_buscar_lista_compras_itens[indice].CodigoLista + "'><i class='fa fa-pencil fa-lg' aria-hidden='true' title='Editar Lista de Compras'></i></a></td>" +
             //  "<td><a href='#' onclick=excluir_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Lista'></i></a></td>"+
-            "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Item_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>" +
+            "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].CodigoItensLista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>" +
             "</tr>";
         }
 
@@ -563,6 +567,107 @@ $("#excluir-lista").click(function (e) {
     $("#mensagem-falha-exclusao-lista-compras").fadeOut(4000);
   }
 });
+
+function excluir_item_lista(recebe_codigo_itens_lista,event)
+{
+  event.preventDefault();
+
+  debugger;
+
+  let recebe_decisao_excluir_itens_lista = window.confirm("Tem certeza que deseja excluir o item da lista de compras?");
+
+  if(recebe_decisao_excluir_itens_lista === true)
+  {
+    if(recebe_codigo_itens_lista != "")
+    {
+      let registros_codigo_itens_lista_excluir = Array();
+
+      for (let indice = 0; indice < 1; indice++) {
+        var valores_codigo_itens_lista = {
+          codigo_itens_lista: recebe_codigo_itens_lista
+        };
+      }
+
+      registros_codigo_itens_lista_excluir.push(valores_codigo_itens_lista);
+
+      $.ajax({
+        url: "../api/ItensListaAPI.php",
+        type: "DELETE",
+        dataType: "json",
+        cache: false,
+        data: JSON.stringify({
+          processo_itens_lista: "excluir_itens_lista_compras",
+          lista_codigos_itens_lista_compras: registros_codigo_itens_lista_excluir,
+        }),
+        success: function (retorno_excluir_itens_lista) 
+        {
+          debugger;
+          if(retorno_excluir_itens_lista === true)
+          {
+            $("#corpo-mensagem-item-lista-excluido-sucesso").html("Item excluído com sucesso da lista de compras");
+            $("#mensagem-item-lista-excluido-sucesso").show();
+            $("#mensagem-item-lista-excluido-sucesso").fadeOut(4000);
+
+            setTimeout(function () {
+              $.ajax({
+                url: "../api/ListaComprasAPI.php",
+                type: "GET",
+                dataType: "json",
+                data: {
+                  processo_lista_compras: "busca_lista_compras_itens",
+                  valor_codigo_lista_compras_itens: $("#lista-compras-com-itens-busca").val()
+                },
+                success: function (retorno_buscar_lista_compras_itens) {
+                  debugger;
+                  if (retorno_buscar_lista_compras_itens != "") {
+                    let recebe_tabela_lista_compras_itens = document.querySelector("#registros-lista-compras");
+                    $("#registros-lista-compras").html("");
+                    for (let indice = 0; indice < retorno_buscar_lista_compras_itens.length; indice++) {
+                      recebe_tabela_lista_compras_itens.innerHTML +=
+                        "<tr>" +
+                        "<td>" + retorno_buscar_lista_compras_itens[indice].NomeDoProduto + "</td>" +
+                        "<td>" + retorno_buscar_lista_compras_itens[indice].Quantidade + "</td>" +
+                        "<td><a href='index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar=" + retorno_buscar_lista_compras_itens[indice].CodigoLista + "'><i class='fa fa-pencil fa-lg' aria-hidden='true' title='Editar Lista de Compras'></i></a></td>" +
+                        //  "<td><a href='#' onclick=excluir_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Lista'></i></a></td>"+
+                        "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].CodigoItensLista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>" +
+                        "</tr>";
+                    }
+            
+                    $("#registros-lista-compras").append(recebe_tabela_lista_compras_itens);
+                  } else {
+                    $("#registros-lista-compras").html("");
+                    $("#registros-lista-compras").append("<td colspan='3' class='text-center'>Nenhum registro localizado</td>");
+                  }
+                },
+                error: function (xhr, status, error) {
+                  consolelo.log(error);
+                },
+              });
+            },1000);
+          }else{
+            $("#corpo-falha-exclusao-item-lista").html("Falha ao excluir item da lista de compras");
+            $("#mensagem-falha-exclusao-item-lista").show();
+            $("#mensagem-falha-exclusao-item-lista").fadeOut(4000);
+          }
+        },
+        error:function(xhr,status,error)
+        {
+          $("#corpo-falha-exclusao-item-lista").html("Falha ao excluir item da lista de compras:" + error);
+          $("#mensagem-falha-exclusao-item-lista").show();
+          $("#mensagem-falha-exclusao-item-lista").fadeOut(4000);
+        },
+      });
+    }else{
+      $("#corpo-falha-exclusao-item-lista").html("Falha ao excluir item da lista de compras, favor escolher o item para exclusão");
+      $("#mensagem-falha-exclusao-item-lista").show();
+      $("#mensagem-falha-exclusao-item-lista").fadeOut(4000);
+    }
+  }else{
+      $("#corpo-falha-exclusao-item-lista").html("Exclusão cancelada com sucesso");
+      $("#mensagem-falha-exclusao-item-lista").show();
+      $("#mensagem-falha-exclusao-item-lista").fadeOut(4000);
+  }
+}
 
 // function popular_select_lists_produtos() {
 //   $.ajax({

@@ -23,5 +23,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
             echo json_encode($resultado_EditarItensLista);
         }
     }
+}else if($_SERVER["REQUEST_METHOD"] === "DELETE")
+{
+    $recebe_processo_itens_lista = json_decode(file_get_contents("php://input", true));
+
+    if($recebe_processo_itens_lista->processo_itens_lista === "excluir_itens_lista_compras")
+    {
+        $recebe_codigos_itens_lista = array();
+
+        foreach($recebe_processo_itens_lista->lista_codigos_itens_lista_compras as $codigos_itens_lista_compras)
+        {
+            foreach($codigos_itens_lista_compras as $indice => $valor)
+            {
+                array_push($recebe_codigos_itens_lista,$valor);
+            }
+        }
+
+        $resultado_ExcluirItensLista = $itens_lista_controladora->excluirItensLista($recebe_codigos_itens_lista);
+        
+        echo json_encode($resultado_ExcluirItensLista);
+    }
 }
 ?>
