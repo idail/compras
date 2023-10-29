@@ -208,6 +208,15 @@ $(document).ready(function (e) {
       error: function (xhr, status, error) {},
     });
 
+    $("#titulo-tela-produtos").html("Alterar Lista de Compras");
+    let elemento_botao_itens_lista = $("[name='botao_produto']");
+    $(elemento_botao_itens_lista).attr("id", "editar-itens-lista");
+    $("#editar-itens-lista").html("Editar");
+
+    $("#adicionar-item-lista").prop("disabled",true);
+
+    $("#itens-produtos-cadastrados").prop("disabled",true);
+
     $.ajax({
       url: "../api/ListaComprasAPI.php",
       type: "GET",
@@ -234,8 +243,10 @@ $(document).ready(function (e) {
 
             recebe_tabela_itens.innerHTML +=
             "<tr>" +
-              "<td><input type='text' class='form-control input-default' name='nome_adicionado' value='" + retorno_buscar_lista_compras_com_itens[indice].NomeDoProduto +
-              "'/><input type='hidden' name='codigo_nome_produto' value='" + retorno_buscar_lista_compras_com_itens[indice].CodigoItensLista + "'/></td>" +
+              "<td><input type='text' class='form-control input-default' name='nome_adicionado' value='" + retorno_buscar_lista_compras_com_itens[indice].NomeDoProduto + "'/>" +
+              "<input type='hidden' name='codigo_itens_lista_para_produtos_alterar' id='codigo-itens-lista-para-produtos-alterar' value='" + retorno_buscar_lista_compras_com_itens[indice].CodigoItensListaProdutos + "'/>" +
+              "<input type='hidden' name='codigo_itens_lista_alterar' value='" + retorno_buscar_lista_compras_com_itens[indice].CodigoItensLista + "'/>" +
+              "</td>" +
               "<td><input type='text' class='form-control input-default' name='quantidade_adicionado' value='" + retorno_buscar_lista_compras_com_itens[indice].Quantidade + "'/></td>" +
             "</tr>";
           }
@@ -271,6 +282,7 @@ $("#lista-compras-com-itens-busca").change(function(e){
             recebe_tabela_lista_compras_itens.innerHTML +=
             "<tr>"+
              "<td>" + retorno_buscar_lista_compras_itens[indice].NomeDoProduto + "</td>"+
+             "<td>" + retorno_buscar_lista_compras_itens[indice].Quantidade + "</td>" +
              "<td><a href='index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar=" + retorno_buscar_lista_compras_itens[indice].CodigoLista + "'><i class='fa fa-pencil fa-lg' aria-hidden='true' title='Editar Lista de Compras'></i></a></td>"+
             //  "<td><a href='#' onclick=excluir_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Lista'></i></a></td>"+
              "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Item_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>"+
@@ -304,7 +316,7 @@ $("#adicionar-item-lista").click(function (e) {
   });
 });
 
-$("#cadastrar-lista-itens").click(function (e) {
+$(document).on("click","#cadastrar-lista-itens",function (e) {
   e.preventDefault();
   debugger;
 
@@ -387,6 +399,81 @@ $("#cadastrar-lista-itens").click(function (e) {
     $("#mensagem-campo-vazio-cadastro-edita-itens-lista").show();
     $("#mensagem-campo-vazio-cadastro-edita-itens-lista").fadeOut(4000);
   }
+});
+
+$(document).on("click","#editar-itens-lista",function(e){
+  e.preventDefault();
+  debugger;
+
+  let lista_codigo_produtos_alterar = Array();
+
+  let lista_codigo_itens_lista_alterar = Array();
+
+  let lista_quantidade_alterar = Array();
+
+  let lista_codigo_itens_lista_para_alterar = Array();
+
+  $("input[name='codigo_itens_lista_alterar']").each(function(indice,valor){
+    lista_codigo_itens_lista_para_alterar.push(this.value);
+  });
+
+  let recebe_codigo_lista_alterar = $("#itens-lista-cadastrados").val();
+
+  $("input[name='codigo_itens_lista_para_produtos_alterar']").each(function (indice, valor) {
+    if(this.value != "")
+    {
+      lista_codigo_produtos_alterar.push(this.value);
+    }else{
+      return;
+    }
+  });
+
+  // $("input[name='codigo_nome_produto']").each(function(indice,valor){
+  //   lista_codigo_produtos_alterar.push(this.value);
+  // });
+
+  for (let indice = 0; indice < lista_codigo_produtos_alterar.length; indice++) 
+  {
+    lista_codigo_itens_lista_alterar.push(recebe_codigo_lista_alterar);
+  }
+
+  $("input[name='quantidade_adicionado']").each(function (indice, valor) {
+    lista_quantidade_alterar.push(this.value);
+  });
+
+  $.ajax({
+    url: "../api/ItensListaAPI.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      processo_itens_lista: "editar_itens_lista",
+      valores_codigo_para_lista_alterar:lista_codigo_itens_lista_alterar,
+      valores_codigo_para_produtos_alterar:lista_codigo_produtos_alterar,
+      valores_quantidade_aterar:lista_quantidade_alterar,
+      valores_codigo_itens_lista_alterar:lista_codigo_itens_lista_para_alterar,
+      metodo:"PUT",
+    },
+    success: function (retorno_edita_produtos) 
+    {
+      debugger;
+      if(retorno_edita_produtos === true)
+      {
+        $("#corpo-itens-lista-editado").html("Lista de compras alterada com sucesso");
+        $("#mensagem-itens-lista-editado").show();
+        $("#mensagem-itens-lista-editado").fadeOut(4000);
+      }else{
+        $("#corpo-falha-cadastro-edita-itens-lista").html("Lista de compras alterada com sucesso");
+        $("#mensagem-falha-cadastro-edita-itens-lista").show();
+        $("#mensagem-falha-cadastro-edita-itens-lista").fadeOut(4000);
+      }
+    },
+    error:function(xhr,status,error)
+    {
+      $("#corpo-falha-cadastro-edita-itens-lista").html(error);
+      $("#mensagem-falha-cadastro-edita-itens-lista").show();
+      $("#mensagem-falha-cadastro-edita-itens-lista").fadeOut(4000);
+    },
+  });
 });
 
 // function popular_select_lists_produtos() {

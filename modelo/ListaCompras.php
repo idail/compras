@@ -83,7 +83,7 @@ class ListaCompras implements ListaComprasInterface{
         L.codigo_lista AS CodigoLista,
         P.codigo_produto as CodigoProduto,
         P.nome_produto AS NomeDoProduto,
-        il.quantidade
+        il.quantidade AS Quantidade
     FROM itens_lista AS IL
     LEFT JOIN lista AS L ON L.codigo_lista = IL.codigo_para_lista
     LEFT JOIN Produtos AS P ON IL.codigo_para_produtos = P.codigo_produto

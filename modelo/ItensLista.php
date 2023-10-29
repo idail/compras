@@ -73,5 +73,29 @@ class ItensLista implements itensListaInterface{
             return $excecao->getMessage();
         }
     }
+
+    public function editarItensLista()
+    {
+        try{
+            for ($indice = 0; $indice < count($this->getCodigo_Para_Lista()); $indice++) 
+            { 
+                $sql_EditarItensLista = "update itens_lista set codigo_para_lista = :recebe_codigo_para_lista_alterar, codigo_para_produtos = :recebe_codigo_para_produtos_alterar, quantidade = :recebe_quantidade_alterar where itens_lista_codigo = :recebe_codigo_itens_lista_alterar";
+                $comando_EditarItensLista = Conexao::Obtem()->prepare($sql_EditarItensLista);
+                $comando_EditarItensLista->bindValue(":recebe_codigo_para_lista_alterar",$this->getCodigo_Para_Lista()[$indice]);
+                $comando_EditarItensLista->bindValue(":recebe_codigo_para_produtos_alterar",$this->getCodigo_Para_Produtos()[$indice]);
+                $comando_EditarItensLista->bindValue(":recebe_quantidade_alterar",$this->getQuantidade()[$indice]);
+                $comando_EditarItensLista->bindValue(":recebe_codigo_itens_lista_alterar",$this->getItens_Lista_Codigo()[$indice]);
+                
+                $resultado_EditarItensLista = $comando_EditarItensLista->execute();
+            }
+            return $resultado_EditarItensLista;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
 }
 ?>

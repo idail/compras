@@ -18,6 +18,7 @@
                             <thead>
                                 <tr>
                                     <th>Nome Produto</th>
+                                    <th>Quantidade</th>
                                     <th colspan="" style="text-align: center;">Opções</th>
                                 </tr>
                             </thead>
