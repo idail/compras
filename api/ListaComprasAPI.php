@@ -46,7 +46,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $resultado_BuscaListaComprasComItens = $lista_compras_controladora->listagemListaComprasComItens();
 
             echo json_encode($resultado_BuscaListaComprasComItens);
+        }else if($_GET["processo_lista_compras"] === "busca_lista_compras_somente")
+        {
+            $resultado_BuscarListaComprasSomente = $lista_compras_controladora->listagemListaComprasSomente();
+
+            echo json_encode($resultado_BuscarListaComprasSomente);
         }
+    }
+}else if($_SERVER["REQUEST_METHOD"] === "DELETE")
+{
+    $recebe_processo_lista_compras = json_decode(file_get_contents("php://input", true));
+
+    if($recebe_processo_lista_compras->processo_lista_compras === "excluir_lista_compras")
+    {
+        $recebe_codigos_lista_compras = array();
+
+        foreach($recebe_processo_lista_compras->lista_codigos_compras as $codigos_lista_compras)
+        {
+            foreach($codigos_lista_compras as $indice => $valor)
+            {
+                array_push($recebe_codigos_lista_compras,$valor);
+            }
+        }
+
+        $resultado_ExcluirListaCompras = $lista_compras_controladora->excluirListaCompras($recebe_codigos_lista_compras);
+
+        echo json_encode($resultado_ExcluirListaCompras);
     }
 }
 ?>

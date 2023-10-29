@@ -48,5 +48,19 @@ class ListaComprasControladora{
 
         return $retorno_BuscaListaComprasComItens;
     }
+
+    public function listagemListaComprasSomente()
+    {
+        $retorno_BuscaListaComprasSomente = $this->lista_compras->listagemListaComprasSomente();
+
+        return $retorno_BuscaListaComprasSomente;
+    }
+
+    public function excluirListaCompras($recebe_codigo_lista_compras_excluir)
+    {
+        $this->lista_compras->setCodigo_Lista($recebe_codigo_lista_compras_excluir);
+        $retorno_ExcluirListaCompras = $this->lista_compras->excluirListaCompras();
+        return $retorno_ExcluirListaCompras;
+    }
 }
 ?>

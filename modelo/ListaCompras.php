@@ -45,6 +45,34 @@ class ListaCompras implements ListaComprasInterface{
         }
     }
 
+    public function excluirListaCompras():bool
+    {
+        try{
+            if(!empty($this->getCodigo_Lista()))
+            {
+                $recebe_codigo_lista_compras = "";
+
+                for($indice = 0;$indice < count($this->getCodigo_Lista());$indice++)
+                {
+                    $recebe_codigo_lista_compras = $this->getCodigo_Lista()[$indice];
+                }
+
+                $sql_ExcluirListaCompras = "delete from lista where codigo_lista = :recebe_codigo_lista_compras_excluir";
+                $comando_ExcluirListaCompras = Conexao::Obtem()->prepare($sql_ExcluirListaCompras);
+                $comando_ExcluirListaCompras->bindValue(":recebe_codigo_lista_compras_excluir",$recebe_codigo_lista_compras);
+                $resultado_ExcluirListaCompras = $comando_ExcluirListaCompras->execute();
+
+                return $resultado_ExcluirListaCompras;
+            }
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
+
     public function listagemListaCompras():array
     {
         $registros_lista_compras = array();
@@ -149,6 +177,27 @@ class ListaCompras implements ListaComprasInterface{
             $registros_listagem_lista_compras_itens = $comando_BuscaListaComprasComitens->fetchAll(PDO::FETCH_ASSOC);
 
             return $registros_listagem_lista_compras_itens;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
+
+    public function listagemListaComprasSomente():array
+    {
+        $registros_listagem_compras_somente = array();
+
+        try{
+            $sql_BuscaListaComprasSomente = "select DISTINCT l.codigo_lista, L.titulo_lista from lista as l INNER JOIN itens_lista as IL on IL.codigo_para_lista = L.codigo_lista";
+            $comando_BuscaListaComprasSomente = Conexao::Obtem()->prepare($sql_BuscaListaComprasSomente);
+            $comando_BuscaListaComprasSomente->execute();
+
+            $registros_listagem_compras_somente = $comando_BuscaListaComprasSomente->fetchAll(PDO::FETCH_ASSOC);
+
+            return $registros_listagem_compras_somente;
         }catch(PDOException $exception)
         {
             return $exception->getMessage();

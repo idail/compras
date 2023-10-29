@@ -12,7 +12,11 @@
                             </option>
                         </select>
                         <button id="excluir-lista" class="btn mb-1 btn-outline-primary">Excluir lista</button>
+                        
                     </div>
+                    <div class="alert alert-success col-lg-12" id="mensagem-lista-compras-excluida-sucesso"><span id="corpo-mensagem-lista-compras-excluida-sucesso"></span></div>
+                    <div class="alert alert-danger" id="mensagem-falha-exclusao-lista-compras"><span id="corpo-falha-exclusao-lista-compras"></span></div>
+
                     <div class="table-responsive">
                         <table class="table header-border">
                             <thead>
