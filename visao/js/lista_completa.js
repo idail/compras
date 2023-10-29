@@ -17,7 +17,7 @@ $(document).ready(function (e) {
 
   let recebe_codigo_lista_compras_itens_alterar = url_lista_compras.substring(indice_busca_codigo_lista + 35);
 
-  console.log(recebe_codigo_lista_compras_itens_alterar);
+  console.log("Codigo para alteração de lista de compras:" + recebe_codigo_lista_compras_itens_alterar);
 
   if (
     url_lista_compras ===
