@@ -15,7 +15,7 @@
                         <label>Informe a data da lista de compras de</label>
                         <!-- <p class="text-muted m-b-20">just add class <code>.mydatepicker</code> to create it.</p> -->
                         <div class="input-group">
-                            <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" id="data-lista-compras"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
+                            <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" id="data-lista-compras-periodo-inicial"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
                         </div>
                     </div>
 
@@ -23,13 +23,13 @@
                         <label>Informe a data da lista de compras até</label>
                         <!-- <p class="text-muted m-b-20">just add class <code>.mydatepicker</code> to create it.</p> -->
                         <div class="input-group ">
-                            <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" id="data-lista-compras"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
+                            <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" id="data-lista-compras-periodo-final"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
 
                         </div>
                     </div>
 
                     <div class="row d-flex justify-content-center col-lg-12">
-                        <button id="excluir-lista" class="btn mb-1 btn-outline-primary">Pesquisar produto</button>
+                        <button id="pesquisar-lista-por-periodo" class="btn mb-1 btn-outline-primary">Pesquisar lista de compras</button>
                     </div>
 
                     <div class="alert alert-success col-lg-12" id="mensagem-lista-compras-excluida-sucesso"><span id="corpo-mensagem-lista-compras-excluida-sucesso"></span></div>
@@ -49,7 +49,7 @@
                                     <th>Quantidade</th>
                                 </tr>
                             </thead>
-                            <tbody id="registros-lista-compras">
+                            <tbody id="registros-lista-compras-por-periodo">
                             </tbody>
                         </table>
                     </div>

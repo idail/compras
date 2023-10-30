@@ -6,6 +6,8 @@ class ListaCompras implements ListaComprasInterface{
     private $codigo_lista;
     private $titulo_lista;
     private $data_lista;
+    private $data_periodo_inicio;
+    private $data_periodo_final;
 
     public function setCodigo_Lista($codigo_lista)
     {
@@ -35,6 +37,26 @@ class ListaCompras implements ListaComprasInterface{
     public function getData_Lista()
     {
         return $this->data_lista;
+    }
+
+    public function setData_Periodo_Inicio($data_periodo_inicio)
+    {
+        $this->data_periodo_inicio = $data_periodo_inicio;
+    }
+
+    public function getData_Periodo_Inicio()
+    {
+        return $this->data_periodo_inicio;
+    }
+
+    public function setData_Periodo_Final($data_periodo_final)
+    {
+        $this->data_periodo_final = $data_periodo_final;
+    }
+
+    public function getData_Periodo_Final()
+    {
+        return $this->data_periodo_final;
     }
 
     public function cadastrarListaCompras():int
@@ -210,6 +232,48 @@ class ListaCompras implements ListaComprasInterface{
             $registros_listagem_compras_somente = $comando_BuscaListaComprasSomente->fetchAll(PDO::FETCH_ASSOC);
 
             return $registros_listagem_compras_somente;
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
+
+    public function listagemComprasPorPeriodo()
+    {
+        $registros_listagem_compras_por_periodo = array();
+
+        try{
+            /*$sql_BuscaListaComprasPorPeriodo = "SELECT
+            l.titulo_lista AS nome_da_lista,
+            p.nome_produto AS nome_do_produto,
+            COUNT(*) AS quantidade_de_produtos,
+            SUM(il.quantidade) AS total_de_quantidade
+        FROM lista l
+        JOIN itens_lista il ON l.codigo_lista = il.codigo_para_lista
+        JOIN produtos p ON il.codigo_para_produtos = p.codigo_produto
+        WHERE
+            l.data_lista BETWEEN :recebe_data_inicio_periodo_pesquisa AND :recebe_data_final_periodo_pesquisa
+        GROUP BY
+            l.titulo_lista, p.nome_produto
+        HAVING COUNT(*) >= 2
+        ORDER BY l.titulo_lista,p.nome_produto";*/
+
+            $sql_BuscaListaComprasPorPeriodo = 
+            "SELECT DISTINCT l.titulo_lista AS nome_da_lista, GROUP_CONCAT(p.nome_produto SEPARATOR ', ') AS nomes_dos_produtos, SUM(il.quantidade) AS 
+            total_de_quantidade FROM lista l JOIN itens_lista il ON l.codigo_lista = il.codigo_para_lista JOIN produtos p ON il.codigo_para_produtos = p.codigo_produto WHERE 
+            l.data_lista BETWEEN :recebe_data_inicio_periodo_pesquisa AND :recebe_data_final_periodo_pesquisa GROUP BY l.titulo_lista HAVING COUNT(*) >= 2";
+
+            $comando_BuscaListaComprasPorPeriodo = Conexao::Obtem()->prepare($sql_BuscaListaComprasPorPeriodo);
+            $comando_BuscaListaComprasPorPeriodo->bindValue(":recebe_data_inicio_periodo_pesquisa",$this->getData_Periodo_Inicio());
+            $comando_BuscaListaComprasPorPeriodo->bindValue(":recebe_data_final_periodo_pesquisa",$this->getData_Periodo_Final());
+            $comando_BuscaListaComprasPorPeriodo->execute();
+
+            $registros_listagem_compras_por_periodo = $comando_BuscaListaComprasPorPeriodo->fetchAll(PDO::FETCH_ASSOC);
+
+            return $registros_listagem_compras_por_periodo;
         }catch(PDOException $exception)
         {
             return $exception->getMessage();

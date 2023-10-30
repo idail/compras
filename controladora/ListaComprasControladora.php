@@ -63,5 +63,15 @@ class ListaComprasControladora{
         $retorno_ExcluirListaCompras = $this->lista_compras->excluirListaCompras();
         return $retorno_ExcluirListaCompras;
     }
+
+    public function listagemComprasPorPeriodo($recebe_data_periodo_inicial,$recebe_data_periodo_final)
+    {
+        $this->lista_compras->setData_Periodo_Inicio($recebe_data_periodo_inicial);
+        $this->lista_compras->setData_Periodo_Final($recebe_data_periodo_final);
+
+        $resultado_BuscaListaComprasPorPeriodo = $this->lista_compras->listagemComprasPorPeriodo();
+
+        return $resultado_BuscaListaComprasPorPeriodo;
+    }
 }
 ?>

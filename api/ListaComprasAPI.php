@@ -51,6 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $resultado_BuscarListaComprasSomente = $lista_compras_controladora->listagemListaComprasSomente();
 
             echo json_encode($resultado_BuscarListaComprasSomente);
+        }else if($_GET["processo_lista_compras"] === "buscar_lista_compras_por_periodo_especifico")
+        {
+            $resultado_BuscarListaComprasPorPeriodoEspecifico = $lista_compras_controladora->listagemComprasPorPeriodo(htmlspecialchars($_GET["valor_data_inicio_periodo"]),htmlspecialchars($_GET["valor_data_final_periodo"]));
+
+            echo json_encode($resultado_BuscarListaComprasPorPeriodoEspecifico);
         }
     }
 }else if($_SERVER["REQUEST_METHOD"] === "DELETE")

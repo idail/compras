@@ -568,6 +568,69 @@ $("#excluir-lista").click(function (e) {
   }
 });
 
+$("#pesquisar-lista-por-periodo").click(function(e){
+  e.preventDefault();
+  debugger;
+  
+  let recebe_data_lista_compras_data_inicial_americano = $("#data-lista-compras-periodo-inicial").val().split(" ")[0]
+  .split("/")
+  .reverse()
+  .join("-");;
+
+  let recebe_data_lista_compras_data_final_americano = $("#data-lista-compras-periodo-final").val().split(" ")[0]
+  .split("/")
+  .reverse()
+  .join("-");;
+
+
+
+  if(recebe_data_lista_compras_data_inicial_americano != "" && recebe_data_lista_compras_data_final_americano != "")
+  {
+    $.ajax({
+      url: "../api/ListaComprasAPI.php",
+      type: "GET",
+      dataType: "json",
+      data: {
+        processo_lista_compras: "buscar_lista_compras_por_periodo_especifico",
+        valor_data_inicio_periodo:recebe_data_lista_compras_data_inicial_americano,
+        valor_data_final_periodo:recebe_data_lista_compras_data_final_americano,
+      },
+      success: function (retorno_busca_lista_compras_por_periodo_especifico) 
+      {
+        debugger;
+
+        console.log(retorno_busca_lista_compras_por_periodo_especifico);
+
+        let recebe_tabela_pesquisa_por_periodo = document.querySelector("#registros-lista-compras-por-periodo");
+
+        $("#registros-lista-compras-por-periodo").html("");
+
+        if(retorno_busca_lista_compras_por_periodo_especifico != "")
+        {
+          for (let indice = 0; indice < retorno_busca_lista_compras_por_periodo_especifico.length; indice++) {
+            recebe_tabela_pesquisa_por_periodo += 
+            "<tr>"+
+              "<td>" + retorno_busca_lista_compras_por_periodo_especifico[indice].nome_da_lista + "</td>"+
+              "<td>" + retorno_busca_lista_compras_por_periodo_especifico[indice].nomes_dos_produtos + "</td>"+
+              "<td>" + retorno_busca_lista_compras_por_periodo_especifico[indice].total_de_quantidade + "</td>"+
+            "</tr>";
+          }
+
+          $("#registros-lista-compras-por-periodo").append(recebe_tabela_pesquisa_por_periodo);
+        }else{
+
+        }
+      },
+      error:function(xhr,status,error)
+      {
+        console.log(error);
+      },
+    });
+  }else{
+
+  }
+});
+
 function excluir_item_lista(recebe_codigo_itens_lista,event)
 {
   event.preventDefault();
