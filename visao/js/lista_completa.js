@@ -15,6 +15,10 @@ $(document).ready(function (e) {
 
   $("#mensagem-falha-exclusao-item-lista").hide();
 
+  $("#mensagem-campo-vazio-procura-por-periodo-lista-compra").hide();
+
+  $("#mensagem-falha-buscar-por-periodo-lista-compra").hide();
+
   debugger;
 
   let url_lista_compras = window.location.href;
@@ -116,42 +120,6 @@ $(document).ready(function (e) {
         console.log(error);
       },
     });
-
-    /*$.ajax({
-      url: "../api/ListaComprasAPI.php",
-      type: "GET",
-      dataType: "json",
-      data: {
-        processo_lista_compras: "busca_lista_compras_itens",
-      },
-      success: function (retorno_buscar_lista_compras_itens) 
-      {
-        debugger;
-        console.log(retorno_buscar_lista_compras_itens);
-        $("#registros-lista-compras").html("");
-        if(retorno_buscar_lista_compras_itens != "")
-        {
-           let recebe_tabela_lista_compras_itens = document.querySelector("#registros-lista-compras");
-
-           for (let indice = 0; indice < retorno_buscar_lista_compras_itens.length; indice++) {
-            recebe_tabela_lista_compras_itens.innerHTML +=
-            "<tr>"+
-             "<td>" + retorno_buscar_lista_compras_itens[indice].ListaDeCompras + "</td>"+
-             "<td>" + retorno_buscar_lista_compras_itens[indice].Produto + "</td>"+
-             "<td><a href='index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar=" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + "'><i class='fa fa-pencil fa-lg' aria-hidden='true' title='Editar Lista'></i></a></td>"+
-             "<td><a href='#' onclick=excluir_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Lista'></i></a></td>"+
-             "<td><a href='#' onclick=excluir_item_lista(" + retorno_buscar_lista_compras_itens[indice].Codigo_Item_Lista + ",event);><i class='fa fa-trash fa-lg' aria-hidden='true' title='Excluir Item Lista'></i></a></td>"+
-            "</tr>";
-           }
-
-           $("#registros-lista-compras").append(recebe_tabela_lista_compras_itens);
-        }
-      },
-      error:function(xhr,status,error)
-      {
-        console.log(error);
-      },
-    });*/
   } else if (url_lista_compras === "http://localhost/compras/visao/index.php?pagina=cadastro_lista_compras&codigo_lista_compras_itens_alterar=" + recebe_codigo_lista_compras_itens_alterar) {
     debugger;
 
@@ -182,7 +150,10 @@ $(document).ready(function (e) {
           $("#itens-lista-cadastrados").append(popula_option);
         }
       },
-      error: function (xhr, status, error) { },
+      error: function (xhr, status, error) 
+      {
+
+       },
     });
 
     $.ajax({
@@ -320,6 +291,21 @@ $("#adicionar-item-lista").click(function (e) {
       "<td><input type='text' class='form-control input-default' name='quantidade_adicionado'/></td>" +
       "</tr>";
   });
+});
+
+$("#limpar-cadastro-lista-compras-itens").click(function(e){
+  e.preventDefault();
+  debugger;
+
+  let select_lista_compras = document.querySelector(
+    "#itens-lista-cadastrados"
+  );
+  
+  select_lista_compras.selectedIndex = 0;
+
+  $("#itens-produtos-cadastrados").val("");
+
+  $("#itens-lista-final").html("");
 });
 
 $(document).on("click", "#cadastrar-lista-itens", function (e) {
@@ -618,16 +604,27 @@ $("#pesquisar-lista-por-periodo").click(function(e){
 
           $("#registros-lista-compras-por-periodo").append(recebe_tabela_pesquisa_por_periodo);
         }else{
-
+          $("#registros-lista-compras-por-periodo").html("");
+          $("#registros-lista-compras-por-periodo").append("<td colspan='3' class='text-center'>Nenhum registro localizado</td>");
         }
       },
       error:function(xhr,status,error)
       {
-        console.log(error);
+        $("#corpo-falha-buscar-por-periodo-lista-compra").html("Falha ao buscar lista de compra por periodo:" + error);
+        $("#mensagem-falha-buscar-por-periodo-lista-compra").show();
+        $("#mensagem-falha-buscar-por-periodo-lista-compra").fadeOut(4000);
       },
     });
-  }else{
-
+  }else if(recebe_data_lista_compras_data_inicial_americano === "")
+  {
+    $("#corpo-campo-vazio-procura-por-periodo-lista-compra").html("Favor preencher a data inicial para pesquisar a lista de compras desejada");
+    $("#mensagem-campo-vazio-procura-por-periodo-lista-compra").show();
+    $("#mensagem-campo-vazio-procura-por-periodo-lista-compra").fadeOut(4000);
+  }else if(recebe_data_lista_compras_data_final_americano === "")
+  {
+    $("#corpo-campo-vazio-procura-por-periodo-lista-compra").html("Favor preencher a data final para pesquisar a lista de compras desejada");
+    $("#mensagem-campo-vazio-procura-por-periodo-lista-compra").show();
+    $("#mensagem-campo-vazio-procura-por-periodo-lista-compra").fadeOut(4000);
   }
 });
 
@@ -731,29 +728,3 @@ function excluir_item_lista(recebe_codigo_itens_lista,event)
       $("#mensagem-falha-exclusao-item-lista").fadeOut(4000);
   }
 }
-
-// function popular_select_lists_produtos() {
-//   $.ajax({
-//     url: "../api/ProdutosAPI.php",
-//     type: "GET",
-//     dataType: "json",
-//     data: {
-//       processo_produtos: "buscar_produtos",
-//     },
-//     success: function (retorno_buscar_produtos) {
-//       debugger;
-//       console.log(retorno_buscar_produtos);
-//       var popula_opcoes_produtos = "";
-//       for (var indice = 0; indice < retorno_buscar_produtos.length; indice++) {
-//         popula_opcoes_produtos +=
-//           "<option value='" +
-//           retorno_buscar_produtos[indice].codigo_produto +
-//           "'> " +
-//           retorno_buscar_produtos[indice].nome_produto +
-//           "</option>";
-//       }
-//       $("#itens-selecionar").append(popula_opcoes_produtos);
-//     },
-//     error: function (xhr, status, error) {},
-//   });
-// }

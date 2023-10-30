@@ -14,7 +14,7 @@
                                     <label>Informe a data da lista de compras</label>
                                     <!-- <p class="text-muted m-b-20">just add class <code>.mydatepicker</code> to create it.</p> -->
                                     <div class="input-group">
-                                        <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" id="data-lista-compras"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
+                                        <input type="text" class="form-control mydatepicker" placeholder="dia/mês/ano" id="data-lista-compras"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
                                     </div>
                                 </div>
                             </div>

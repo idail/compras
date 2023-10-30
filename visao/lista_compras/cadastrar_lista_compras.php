@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                             <button type="button" class="btn mb-1 btn-outline-primary" id="cadastrar-lista-itens" name="botao_produto">Cadastrar</button>
-                            <button type="reset" class="btn mb-1 btn-outline-light">Limpar</button>
+                            <button type="button" id="limpar-cadastro-lista-compras-itens" class="btn mb-1 btn-outline-light">Limpar</button>
                         </form>
 
                     </div>
