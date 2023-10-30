@@ -13,10 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($_POST["processo_lista_compras"] === "cadastrar_lista_compras") 
         {
-            if(isset($_POST["valor_titulo_lista_compras"]))
+            if(isset($_POST["valor_titulo_lista_compras"]) && isset($_POST["valor_data_lista_compras"]))
             {
                 
-                $resultado_CadastrarListaCompras = $lista_compras_controladora->cadastrarListaCompras(htmlspecialchars($_POST["valor_titulo_lista_compras"]));
+                $resultado_CadastrarListaCompras = $lista_compras_controladora->cadastrarListaCompras(htmlspecialchars($_POST["valor_titulo_lista_compras"]),htmlspecialchars($_POST["valor_data_lista_compras"]));
                 
                 echo json_encode($resultado_CadastrarListaCompras);
             }

@@ -9,9 +9,10 @@ class ListaComprasControladora{
         $this->lista_compras = new ListaCompras();
     }
 
-    public function cadastrarListaCompras($recebe_titulo_lista_compras)
+    public function cadastrarListaCompras($recebe_titulo_lista_compras,$recebe_data_lista_compras)
     {
         $this->lista_compras->setTitulo_Lista($recebe_titulo_lista_compras);
+        $this->lista_compras->setData_Lista($recebe_data_lista_compras);
 
         $retorno_CadastrarListaCompras = $this->lista_compras->cadastrarListaCompras();
 

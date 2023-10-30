@@ -5,6 +5,7 @@ class ListaCompras implements ListaComprasInterface{
 
     private $codigo_lista;
     private $titulo_lista;
+    private $data_lista;
 
     public function setCodigo_Lista($codigo_lista)
     {
@@ -26,12 +27,23 @@ class ListaCompras implements ListaComprasInterface{
         return $this->titulo_lista;
     }
 
+    public function setData_Lista($data_lista)
+    {
+        $this->data_lista = $data_lista;
+    }
+
+    public function getData_Lista()
+    {
+        return $this->data_lista;
+    }
+
     public function cadastrarListaCompras():int
     {
         try{
-            $sql_InserirListaCompra = "insert into lista(titulo_lista)values(:recebe_titulo_lista)";
+            $sql_InserirListaCompra = "insert into lista(titulo_lista,data_lista)values(:recebe_titulo_lista,:recebe_data_lista)";
             $comando_InserirListaCompra = Conexao::Obtem()->prepare($sql_InserirListaCompra);
             $comando_InserirListaCompra->bindValue(":recebe_titulo_lista",$this->getTitulo_Lista());
+            $comando_InserirListaCompra->bindValue(":recebe_data_lista",$this->getData_Lista());
             $resultado_InserirListaCompra = $comando_InserirListaCompra->execute();
             $recebe_UltimoCodigoInserdoListaCompra = Conexao::Obtem()->lastInsertId();
 

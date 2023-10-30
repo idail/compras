@@ -8,7 +8,15 @@
                     <div class="basic-form">
                         <form>
                             <div class="form-group">
+                                <label>Informe o título da lista de compras</label>
                                 <input type="text" class="form-control input-default" placeholder="Informa o nome da lista de compras" id="titulo-lista-compras">
+                                <div class="example mt-3">
+                                    <label>Informe a data da lista de compras</label>
+                                    <!-- <p class="text-muted m-b-20">just add class <code>.mydatepicker</code> to create it.</p> -->
+                                    <div class="input-group">
+                                        <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" id="data-lista-compras"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
+                                    </div>
+                                </div>
                             </div>
                             <button type="button" class="btn mb-1 btn-outline-primary" id="cadastrar-lista-compra">Cadastrar</button>
                             <button type="reset" class="btn mb-1 btn-outline-light">Limpar</button>
