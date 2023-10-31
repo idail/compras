@@ -269,6 +269,7 @@ function excluir_registro_produto(recebe_codigo_produto, e) {
 
                     $("#registros-produtos").append(recebe_tabela_produtos);
                   } else {
+                    $("#registros-produtos").html("");
                     $("#registros-produtos").append("<td colspan='2' class='text-center'>Nenhum registro localizado</td>>");
                   }
                 },
