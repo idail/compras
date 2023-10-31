@@ -14,6 +14,7 @@
                     </tbody>
                 </table>
             </div>
+            <div class="alert alert-danger" id="mensagem-falha-buscar-produtos"><span id="corpo-falha-buscar-produtos"></span></div>
         </div>
     </div>
 </div>

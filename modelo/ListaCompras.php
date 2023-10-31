@@ -131,14 +131,7 @@ class ListaCompras implements ListaComprasInterface{
         $registros_listas_compras_itens = array();
 
         try{
-        //     $sql_BuscaListaCompraItens = "SELECT
-        //     L.titulo_lista AS ListaDeCompras,
-        //     P.nome_produto AS Produto,
-        //     L.codigo_lista as Codigo_Lista,
-        //     IL.itens_lista_codigo as Codigo_Item_Lista
-        // FROM lista AS L
-        // INNER JOIN itens_lista AS IL ON l.codigo_lista = IL.codigo_para_lista
-        // INNER JOIN Produtos AS P ON IL.codigo_para_produtos = P.codigo_produto;";
+        
         $sql_BuscarListagemComprasItens = 
         "SELECT
         IL.itens_lista_codigo as CodigoItensLista,
@@ -241,26 +234,11 @@ class ListaCompras implements ListaComprasInterface{
         }
     }
 
-    public function listagemComprasPorPeriodo()
+    public function listagemComprasPorPeriodo():array
     {
         $registros_listagem_compras_por_periodo = array();
 
         try{
-            /*$sql_BuscaListaComprasPorPeriodo = "SELECT
-            l.titulo_lista AS nome_da_lista,
-            p.nome_produto AS nome_do_produto,
-            COUNT(*) AS quantidade_de_produtos,
-            SUM(il.quantidade) AS total_de_quantidade
-        FROM lista l
-        JOIN itens_lista il ON l.codigo_lista = il.codigo_para_lista
-        JOIN produtos p ON il.codigo_para_produtos = p.codigo_produto
-        WHERE
-            l.data_lista BETWEEN :recebe_data_inicio_periodo_pesquisa AND :recebe_data_final_periodo_pesquisa
-        GROUP BY
-            l.titulo_lista, p.nome_produto
-        HAVING COUNT(*) >= 2
-        ORDER BY l.titulo_lista,p.nome_produto";*/
-
             $sql_BuscaListaComprasPorPeriodo = 
             "SELECT DISTINCT l.titulo_lista AS nome_da_lista, GROUP_CONCAT(p.nome_produto SEPARATOR ', ') AS nomes_dos_produtos, SUM(il.quantidade) AS 
             total_de_quantidade FROM lista l JOIN itens_lista il ON l.codigo_lista = il.codigo_para_lista JOIN produtos p ON il.codigo_para_produtos = p.codigo_produto WHERE 

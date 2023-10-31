@@ -7,7 +7,9 @@ $(document).ready(function (e) {
 
   $("#mensagem-falha-cadastro-edita-produto").hide();
 
-  debugger;
+  $("#mensagem-falha-buscar-produtos").hide();
+  
+  $("#mensagem-falha-busca-edita-produto").hide();
 
   let url_produtos = window.location.href;
 
@@ -21,7 +23,7 @@ $(document).ready(function (e) {
 
 
   if (url_produtos === "http://localhost/compras/visao/index.php?pagina=consultar_produtos") {
-    debugger;
+    
     $.ajax({
       url: "../api/ProdutosAPI.php",
       type: "GET",
@@ -30,7 +32,6 @@ $(document).ready(function (e) {
         processo_produtos: "buscar_produtos",
       },
       success: function (retorno_buscar_produtos) {
-        debugger;
         let recebe_tabela_produtos = document.querySelector("#registros-produtos");
 
         if (retorno_buscar_produtos != "") {
@@ -49,8 +50,12 @@ $(document).ready(function (e) {
           $("#registros-produtos").append("<td colspan='2' class='text-center'>Nenhum registro localizado</td>>");
         }
       },
-      error: function (xhr, status, error) {
-
+      error: function (xhr, status, error) 
+      {
+        $("#corpo-falha-buscar-produtos").html("Falha ao buscar produtos:" + error);
+        $("#mensagem-falha-buscar-produtos").show();
+        $("#mensagem-falha-buscar-produtos").fadeOut(4000);
+        $("#registros-produtos").append("<td colspan='2' class='text-center'>Nenhum registro localizado</td>>");
       },
     });
   } else if (url_produtos === "http://localhost/compras/visao/index.php?pagina=cadastrar_produtos&codigo_produto=" + recebe_codigo_produto) {
@@ -68,14 +73,21 @@ $(document).ready(function (e) {
         valor_codigo_produto: recebe_codigo_produto
       },
       success: function (retorno_buscar_produtos) {
-        debugger;
+        
         if (retorno_buscar_produtos != "") {
           $("#nome-produto").val(retorno_buscar_produtos.nome_produto);
           $("#codigo-produto-alterar").val(retorno_buscar_produtos.codigo_produto);
+        }else{
+          $("#corpo-falha-busca-edita-produto").html("Falha ao buscar produto:" + retorno_edita_produtos);
+          $("#mensagem-falha-busca-edita-produto").show();
+          $("#mensagem-falha-busca-edita-produto").fadeOut(4000);
         }
       },
-      error: function (xhr, status, error) {
-        console.log(error);
+      error: function (xhr, status, error) 
+      {
+        $("#corpo-falha-busca-edita-produto").html("Falha ao buscar produto:" + error);
+        $("#mensagem-falha-busca-edita-produto").show();
+        $("#mensagem-falha-busca-edita-produto").fadeOut(4000);
       },
     });
   }
@@ -84,7 +96,7 @@ $(document).ready(function (e) {
 $(document).on("click", "#cadastrar-produto", function (e) {
   e.preventDefault();
 
-  debugger;
+  
 
   let recebe_nome_produto = $("#nome-produto").val();
 
@@ -98,7 +110,7 @@ $(document).on("click", "#cadastrar-produto", function (e) {
         valor_nome_produtos: recebe_nome_produto,
       },
       success: function (retorno_cadastro_produtos) {
-        debugger;
+        
         if (retorno_cadastro_produtos != "") {
           if (retorno_cadastro_produtos === "produto ja cadastrado") {
             $("#corpo-falha-cadastro-edita-produto").html("Produto já cadastrado");
@@ -138,7 +150,7 @@ $(document).on("click", "#cadastrar-produto", function (e) {
 $(document).on("click", "#editar-produto", function (e) {
   e.preventDefault();
 
-  debugger;
+  
   let recebe_nome_produto_alterar = $("#nome-produto").val();
 
   let recebe_codigo_produto_alterar = $("#codigo-produto-alterar").val();
@@ -155,7 +167,7 @@ $(document).on("click", "#editar-produto", function (e) {
         metodo: "PUT",
       },
       success: function (retorno_edita_produtos) {
-        debugger;
+        
         if (retorno_edita_produtos != "") {
           if (retorno_edita_produtos === "produto ja cadastrado") {
             $("#corpo-falha-cadastro-edita-produto").html("Produto já cadastrado");
@@ -209,7 +221,7 @@ function excluir_registro_produto(recebe_codigo_produto, e) {
           valor_codigo_produto_deletar: recebe_codigo_produto,
         }),
         success: function (retorno_deletar_produtos) {
-          debugger;
+          
 
           if (retorno_deletar_produtos === true) {
             toastr.success("Produto deletado com sucesso", {
@@ -232,7 +244,7 @@ function excluir_registro_produto(recebe_codigo_produto, e) {
             });
 
             setTimeout(function () {
-              debugger;
+              
               $.ajax({
                 url: "../api/ProdutosAPI.php",
                 type: "GET",
@@ -241,7 +253,7 @@ function excluir_registro_produto(recebe_codigo_produto, e) {
                   processo_produtos: "buscar_produtos",
                 },
                 success: function (retorno_buscar_produtos) {
-                  debugger;
+              
                   let recebe_tabela_produtos = document.querySelector("#registros-produtos");
 
                   if (retorno_buscar_produtos != "") {
@@ -260,8 +272,27 @@ function excluir_registro_produto(recebe_codigo_produto, e) {
                     $("#registros-produtos").append("<td colspan='2' class='text-center'>Nenhum registro localizado</td>>");
                   }
                 },
-                error: function (xhr, status, error) {
-
+                error: function (xhr, status, error) 
+                {
+                  $("#registros-produtos").append("<td colspan='2' class='text-center'>Nenhum registro localizado</td>>");
+                  toastr.error("Falha ao deletar produto", error, {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1,
+                  });
                 },
               });
             }, 1000);

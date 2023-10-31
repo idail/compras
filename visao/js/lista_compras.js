@@ -1,5 +1,4 @@
 $(document).ready(function (e) {
-  debugger;
 
   $("#mensagem-campo-vazio-cadastro-lista-compras").hide();
 
@@ -7,20 +6,10 @@ $(document).ready(function (e) {
 
   $("#mensagem-falha-cadastro-lista-compras").hide();
 
-  debugger;
-
-  // let url_lista_compras = window.location.href;
-
-  // if(url_lista_compras === "http://localhost/compras/visao/index.php?pagina=cadastrar_lista&codigo_lista_alterar=" + recebe_codigo_lista)
-  // {
-
-  // }
 });
 
 $("#cadastrar-lista-compra").click(function (e) {
   e.preventDefault();
-
-  debugger;
 
   let recebe_titulo_lista_compras = $("#titulo-lista-compras").val();
 
@@ -40,7 +29,7 @@ $("#cadastrar-lista-compra").click(function (e) {
         valor_data_lista_compras:recebe_data_lista_compras,
       },
       success: function (retorno_cadastro_lista_compras) {
-        debugger;
+        
         if (retorno_cadastro_lista_compras != "") {
           $("#corpo-lista-compras-cadastrado").html(
             "Lista de compras cadastrada com sucesso"
