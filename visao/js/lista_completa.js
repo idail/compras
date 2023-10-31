@@ -75,9 +75,6 @@ $(document).ready(function (e) {
           );
           
           select_lista_compras.selectedIndex = 0;
-          $("#corpo-falha-buscar-lista-de-compras-cadastro-itens-lista").html("Falha ao buscar listas de compras:" + retorno_busca_lista_compras);
-          $("#mensagem-falha-buscar-lista-de-compras-cadastro-edita-itens-lista").show();
-          $("#mensagem-falha-buscar-lista-de-compras-cadastro-edita-itens-lista").fadeOut(4000);
         }
       },
       error: function (xhr, status, error) 
@@ -119,10 +116,7 @@ $(document).ready(function (e) {
           }
           $("#itens-produtos-cadastrados").append(popula_opcoes_produtos);
         }else{
-          $("itens-produtos-cadastrados").html("");
-          $("#corpo-falha-buscar-produtos-cadastro-itens-lista").html("Falha ao buscar produtos:" + retorno_buscar_produtos);
-          $("#mensagem-falha-buscar-produtos-cadastro-edita-itens-lista").show();
-          $("#mensagem-falha-buscar-produtos-cadastro-edita-itens-lista").fadeOut(4000);
+          $("#itens-produtos-cadastrados").append("<option value='ns'>Nenhum registro localizado</option>");
         }
       },
       error: function (xhr, status, error) 
@@ -403,17 +397,22 @@ $("#adicionar-item-lista").click(function (e) {
   debugger;
   let recebe_tabela_itens = document.querySelector("#itens-lista-final");
 
-  $("#itens-produtos-cadastrados :selected").each(function () {
-    recebe_tabela_itens.innerHTML +=
-      "<tr>" +
-      "<td><input type='text' class='form-control input-default' name='nome_adicionado' value='" +
-      this.text +
-      "'/><input type='hidden' name='codigo_nome_produto' value='" +
-      this.value +
-      "'/></td>" +
-      "<td><input type='text' class='form-control input-default' name='quantidade_adicionado'/></td>" +
-      "</tr>";
-  });
+  if($("#itens-produtos-cadastrados :selected").val() === "ns")
+  {
+    alert("Favor cadastrar produtos para cadastrar na lista de compras");
+  }else{
+    $("#itens-produtos-cadastrados :selected").each(function () {
+      recebe_tabela_itens.innerHTML +=
+        "<tr>" +
+        "<td><input type='text' class='form-control input-default' name='nome_adicionado' value='" +
+        this.text +
+        "'/><input type='hidden' name='codigo_nome_produto' value='" +
+        this.value +
+        "'/></td>" +
+        "<td><input type='text' class='form-control input-default' name='quantidade_adicionado'/></td>" +
+        "</tr>";
+    });
+  }
 });
 
 $("#limpar-cadastro-lista-compras-itens").click(function(e){
