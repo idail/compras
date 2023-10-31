@@ -125,14 +125,19 @@ class Produtos implements ProdutosInterface{
         }
     }
 
-    public function deletarProdutos():bool
+    public function deletarProdutos():string
     {
         try{
             $sql_DeletarProduto = "delete from produtos where codigo_produto = :recebe_codigo_produto";
             $comando_DeletarProduto = Conexao::Obtem()->prepare($sql_DeletarProduto);
             $comando_DeletarProduto->bindValue(":recebe_codigo_produto",$this->getCodigo_Produto());
             $resultado_DeletarProduto = $comando_DeletarProduto->execute();
-            return $resultado_DeletarProduto;
+            if($resultado_DeletarProduto === true)
+            {
+                return $resultado_DeletarProduto;
+            }else{
+                return $resultado_DeletarProduto;
+            }
         }catch(PDOException $exception)
         {
             return $exception->getMessage();

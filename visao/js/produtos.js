@@ -206,7 +206,7 @@ $(document).on("click", "#editar-produto", function (e) {
 
 function excluir_registro_produto(recebe_codigo_produto, e) {
   e.preventDefault();
-
+  debugger;
   let decisao_deletar_produto = window.confirm("Tem certeza que deseja deletar o produto?");
 
   if (decisao_deletar_produto === true) {
@@ -222,8 +222,8 @@ function excluir_registro_produto(recebe_codigo_produto, e) {
         }),
         success: function (retorno_deletar_produtos) {
           
-
-          if (retorno_deletar_produtos === true) {
+          debugger;
+          if (retorno_deletar_produtos === "1") {
             toastr.success("Produto deletado com sucesso", {
               timeOut: 5e3,
               closeButton: !0,

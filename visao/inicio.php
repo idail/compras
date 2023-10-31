@@ -308,7 +308,7 @@
                             <li><a href="index.php?pagina=consultar_lista_compras_por_periodo">Consultar por Periodo</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-screen-tablet menu-icon"></i><span class="nav-text">Apps</span>
                         </a>
@@ -352,13 +352,13 @@
                             <li><a href="./ui-progressbar.html">Progressbar</a></li>
                             <li><a href="./ui-tab.html">Tab</a></li>
                             <li><a href="./ui-typography.html">Typography</a></li>
-                            <!-- </ul>
+                            </ul>
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-layers menu-icon"></i><span class="nav-text">Components</span>
                         </a>
-                        <ul aria-expanded="false"> -->
+                        <ul aria-expanded="false">
                             <li><a href="./uc-nestedable.html">Nestedable</a></li>
                             <li><a href="./uc-noui-slider.html">Noui Slider</a></li>
                             <li><a href="./uc-sweetalert.html">Sweet Alert</a></li>
@@ -412,7 +412,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
