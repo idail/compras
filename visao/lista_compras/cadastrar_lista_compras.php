@@ -47,9 +47,18 @@
 
                     </div>
                     <div class="alert alert-danger" id="mensagem-campo-vazio-cadastro-edita-itens-lista"><span id="corpo-campo-vazio-cadastro-edita-itens-lista"></span></div>
+                    
                     <div class="alert alert-success" id="mensagem-itens-lista-cadastrado"><span id="corpo-itens-lista-cadastrado"></span></div>
+                    
                     <div class="alert alert-success" id="mensagem-itens-lista-editado"><span id="corpo-itens-lista-editado"></span></div>
+                    
                     <div class="alert alert-danger" id="mensagem-falha-cadastro-edita-itens-lista"><span id="corpo-falha-cadastro-edita-itens-lista"></span></div>
+
+                    <div class="alert alert-danger" id="mensagem-falha-buscar-lista-de-compras-cadastro-edita-itens-lista"><span id="corpo-falha-buscar-lista-de-compras-cadastro-itens-lista"></span></div>
+
+                    <div class="alert alert-danger" id="mensagem-falha-buscar-produtos-cadastro-edita-itens-lista"><span id="corpo-falha-buscar-produtos-cadastro-itens-lista"></span></div>
+
+                    <div class="alert alert-danger" id="mensagem-falha-buscar-lista-com-produtos-edita"><span id="corpo-falha-buscar-lista-com-produtos-edita"></span></div>
                 </div>
             </div>
         </div>

@@ -23,6 +23,10 @@
 
                     <div class="alert alert-danger" id="mensagem-falha-exclusao-item-lista"><span id="corpo-falha-exclusao-item-lista"></span></div>
 
+                    <div class="alert alert-danger" id="mensagem-falha-buscar-lista-compras"><span id="corpo-falha-buscar-lista-compras"></span></div>
+
+                    <div class="alert alert-danger" id="mensagem-falha-buscar-lista-compras"><span id="corpo-falha-buscar-lista-compras"></span></div>
+
                     <div class="table-responsive">
                         <table class="table header-border">
                             <thead>
