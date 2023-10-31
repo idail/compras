@@ -25,6 +25,8 @@ $(document).ready(function (e) {
 
   $("#mensagem-falha-buscar-lista-com-produtos-edita").hide();
 
+  $("#mensagem-falha-buscar-lista-compras").hide();
+  
   debugger;
 
   let url_lista_compras = window.location.href;
