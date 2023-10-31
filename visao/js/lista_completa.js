@@ -115,8 +115,10 @@ $(document).ready(function (e) {
               "</option>";
           }
           $("#itens-produtos-cadastrados").append(popula_opcoes_produtos);
+          $("#adicionar-item-lista").prop("disabled", false);
         }else{
           $("#itens-produtos-cadastrados").append("<option value='ns'>Nenhum registro localizado</option>");
+          $("#adicionar-item-lista").prop("disabled", true);
         }
       },
       error: function (xhr, status, error) 
