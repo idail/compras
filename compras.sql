@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25-Out-2023 às 16:05
+-- Tempo de geração: 31-Out-2023 às 03:48
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -42,16 +42,9 @@ CREATE TABLE `itens_lista` (
 
 CREATE TABLE `lista` (
   `codigo_lista` int(11) NOT NULL,
-  `titulo_lista` varchar(100) NOT NULL
+  `titulo_lista` varchar(100) NOT NULL,
+  `data_lista` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `lista`
---
-
-INSERT INTO `lista` (`codigo_lista`, `titulo_lista`) VALUES
-(1, 'Primeira lista'),
-(2, 'Segunda lista');
 
 -- --------------------------------------------------------
 
@@ -63,13 +56,6 @@ CREATE TABLE `produtos` (
   `codigo_produto` int(11) NOT NULL,
   `nome_produto` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `produtos`
---
-
-INSERT INTO `produtos` (`codigo_produto`, `nome_produto`) VALUES
-(1, 'Primeiro');
 
 --
 -- Índices para tabelas despejadas
@@ -110,13 +96,13 @@ ALTER TABLE `itens_lista`
 -- AUTO_INCREMENT de tabela `lista`
 --
 ALTER TABLE `lista`
-  MODIFY `codigo_lista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codigo_lista` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `codigo_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codigo_produto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para despejos de tabelas
@@ -126,7 +112,7 @@ ALTER TABLE `produtos`
 -- Limitadores para a tabela `itens_lista`
 --
 ALTER TABLE `itens_lista`
-  ADD CONSTRAINT `chave_estrangeira_itens_lista_para_lista` FOREIGN KEY (`codigo_para_lista`) REFERENCES `lista` (`codigo_lista`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `chave_estrangeira_itens_lista_para_lista` FOREIGN KEY (`codigo_para_lista`) REFERENCES `lista` (`codigo_lista`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `chave_estrangeira_itens_lista_para_produtos` FOREIGN KEY (`codigo_para_produtos`) REFERENCES `produtos` (`codigo_produto`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
